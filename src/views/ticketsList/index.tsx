@@ -1,7 +1,7 @@
 import styles from './tickets.module.css'
 
 
-export default function List(){
+export default function TicketsList(){
   return(
     <div>
       List
