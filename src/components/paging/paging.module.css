@@ -1,0 +1,42 @@
+.paging{
+  display: flex;
+  justify-content: flex-start;
+  padding-inline-start: 8px;
+}
+
+.pagingBtn{
+  background-color: #FFF;
+  border: 1px solid gray;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-inline: 4px;
+}
+
+
+
+.pagingBtn:hover{
+  background-color: gray;
+  color: #FFF;
+  border: 1px solid gray;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-inline: 4px;
+}
+
+.pagingBtn:disabled{
+  cursor: not-allowed;
+  opacity: 0.5;
+  background-color: #FFF;
+  border: 1px solid gray;
+  color: gray;
+}

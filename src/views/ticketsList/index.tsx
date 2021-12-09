@@ -1,16 +1,30 @@
 import { useEffect, useState } from 'react'
-import { EmptyTableError, TicketRow } from '../../components'
+import { EmptyTableError, Paging, TicketRow } from '../../components'
 import { TicketType } from '../../constants/types'
-import { getTickets } from '../../services/getTicketList'
+import { getAllTicketsNumber, getTickets } from '../../services/getTicketList'
 import styles from './tickets.module.css'
 
 
 export default function TicketsList(){
   const [ticketList, setTicketList] = useState<TicketType[] | []>([])
+  const [ticketsNumber, setTicketsNumber] = useState<number>(0)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+
+  const handleFirstPageClick = () => setCurrentPage(1)
+  const handlePrevPageClick = () => setCurrentPage(currentPage - 1)
+  const handleNextPageClick = () => setCurrentPage(currentPage + 1)
+  const handleLastPageClick = () => setCurrentPage(Math.ceil(ticketsNumber/10))
 
   useEffect(() => {
-    getTickets(2).then(tickets => setTicketList(tickets))
-  }, [])
+    let mount = true
+    if(mount){
+      getAllTicketsNumber().then(number => setTicketsNumber(number))
+      getTickets(currentPage).then(tickets => setTicketList(tickets))
+    }
+    return () => {
+      mount = false
+    }
+  }, [currentPage])
 
   return(
     <div className={styles.container}>
@@ -36,6 +50,14 @@ export default function TicketsList(){
           }
         </tbody>
       </table>
+      <Paging 
+        pages={Math.ceil(ticketsNumber/10)} 
+        currentPage= {currentPage}
+        handleFirstPageClick = {handleFirstPageClick}
+        handlePrevPageClick  = {handlePrevPageClick }
+        handleNextPageClick  = {handleNextPageClick }
+        handleLastPageClick  = {handleLastPageClick }
+        />
     </div>
   )
 }
