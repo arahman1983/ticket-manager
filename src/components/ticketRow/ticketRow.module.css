@@ -1,0 +1,24 @@
+.mainRow{
+  cursor: pointer;
+}
+
+.active{
+  background-color:rgba(220, 220, 220,0.3);
+}
+
+.description{
+  justify-content: flex-start;
+  text-align: start;
+  background-color:rgba(220, 220, 220,0.3);
+}
+
+.status{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.status small{
+  border-radius: 8px;
+  padding: 4px 8px;
+  color: #FFF;
+}

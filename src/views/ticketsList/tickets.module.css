@@ -1,0 +1,11 @@
+.container{
+  margin-top: 16px;
+}
+
+.id{
+  width: 40px;
+}
+
+.container th, .container td{
+  text-align: start;
+}
