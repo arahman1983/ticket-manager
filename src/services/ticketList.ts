@@ -1,3 +1,5 @@
+import { TicketType } from "../constants/types"
+
 export async function getTickets(page:number){
   try {
     const res = await fetch(`http://localhost:3004/tickets?_page=${page}&_limit=10`)
@@ -18,4 +20,36 @@ export async function getAllTicketsNumber() {
   } catch (error) {
     console.log(`error`, error)
   }
+}
+
+
+export async function updateTicket(ticket: TicketType) {
+  try {
+    const res = await fetch(`http://localhost:3004/tickets/${ticket.id}`,{
+      method: 'PUT',
+      body: JSON.stringify(ticket)
+    })
+    const result = await res.json()
+    console.log(`res`, result)
+    return result
+  } catch (error) {
+    console.log(`error`, error)
+  }
+  
+}
+
+
+export async function addTicket(ticket: TicketType) {
+  try {
+    const res = await fetch(`http://localhost:3004/tickets`,{
+      method: 'POST',
+      body: JSON.stringify(ticket)
+    })
+    const result = await res.json()
+    console.log(`res`, result)
+    return result
+  } catch (error) {
+    console.log(`error`, error)
+  }
+  
 }

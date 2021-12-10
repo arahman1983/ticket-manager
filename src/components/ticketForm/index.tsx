@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react'
 import { TicketType } from '../../constants/types'
+// import { addTicket, updateTicket } from '../../services/ticketList'
 import styles from './ticketForm.module.css'
 
 type Props = {
@@ -27,6 +28,7 @@ export default function TicketForm ({ticket, closeForm}:Props){
     closeForm()
   }
 
+
   const handleSubmit = (e:FormEvent) => {
     e.preventDefault()
     if(!subject || !description){
@@ -34,8 +36,21 @@ export default function TicketForm ({ticket, closeForm}:Props){
       return false
     }
     setError(false)
+    alert('updateis not implemented to add in db :>> ');
     resetForm()
     closeForm()
+    // updateTicket({
+    //   id: ticket?.id,
+    //   Subject: subject,
+    //   Priority: priority,
+    //   Status: status,
+    //   Description: description,
+    // }).then((result)=>{
+    //   resetForm()
+    //   closeForm()
+    // }).catch(()=>{
+    //   return false
+    // })
   }
 
   const handleSubject = (e:React.FormEvent<HTMLInputElement>):void => {

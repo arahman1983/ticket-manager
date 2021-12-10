@@ -1,5 +1,5 @@
 export interface TicketType {
-  id: number,
+  id?: number,
   Subject: string,
   Priority: number,
   Status: number,
