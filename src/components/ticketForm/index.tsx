@@ -1,14 +1,16 @@
 import { FormEvent, useState } from 'react'
 import { TicketType } from '../../constants/types'
-// import { addTicket, updateTicket } from '../../services/ticketList'
+import { addTicket, updateTicket } from '../../services/ticketList'
 import styles from './ticketForm.module.css'
 
 type Props = {
   ticket: TicketType | undefined
-  closeForm: ()=>void
+  closeForm: () => void
+  updateCurrentPage: ()=> void
+  handleLastPage: ()=>void
 }
 
-export default function TicketForm ({ticket, closeForm}:Props){
+export default function TicketForm ({ticket, closeForm, updateCurrentPage, handleLastPage}:Props){
   const [subject, setSubject] = useState<string>(ticket ? ticket.Subject : '')
   const [description, setDescription] = useState<string>(ticket ? ticket.Description : '')
   const [priority, setPriority] = useState<number>(ticket ? ticket.Priority : 1)
@@ -36,21 +38,36 @@ export default function TicketForm ({ticket, closeForm}:Props){
       return false
     }
     setError(false)
-    alert('updateis not implemented to add in db :>> ');
-    resetForm()
-    closeForm()
-    // updateTicket({
-    //   id: ticket?.id,
-    //   Subject: subject,
-    //   Priority: priority,
-    //   Status: status,
-    //   Description: description,
-    // }).then((result)=>{
-    //   resetForm()
-    //   closeForm()
-    // }).catch(()=>{
-    //   return false
-    // })
+    // alert('updateis not implemented to add in db :>> ');
+    // resetForm()
+    // closeForm()
+    ticket ?
+    updateTicket({
+      id: ticket?.id,
+      Subject: subject,
+      Priority: priority,
+      Status: status,
+      Description: description,
+    }).then((result)=>{
+      updateCurrentPage()
+      resetForm()
+      closeForm()
+    }).catch(()=>{
+      return false
+    })
+    : 
+    addTicket({
+      Subject: subject,
+      Priority: priority,
+      Status: status,
+      Description: description,
+    }).then((result)=>{
+      handleLastPage()
+      resetForm()
+      closeForm()
+    }).catch(()=>{
+      return false
+    })
   }
 
   const handleSubject = (e:React.FormEvent<HTMLInputElement>):void => {

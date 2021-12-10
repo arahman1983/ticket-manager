@@ -19,6 +19,20 @@ export default function TicketsList(){
   const openForm = ():void => setShowForm(true)
   const closeForm = ():void => setShowForm(false)
   const selectTicket = (ticket:TicketType | undefined):void => setSelectedTicket(ticket)
+  const updateCurrentPage = () => {
+    getTickets(currentPage).then(tickets => setTicketList(tickets))
+  }
+  const openForAdd = () => {
+    setSelectedTicket(undefined)
+    setShowForm(true)
+  }
+
+  const handleLastPage = () => {
+    getAllTicketsNumber().then(number => {
+      setTicketsNumber(number)
+      setCurrentPage(Math.ceil(number/10))
+    })
+  }
 
 
   useEffect(() => {
@@ -34,7 +48,16 @@ export default function TicketsList(){
 
   return(
     <div className={styles.container}>
-      {showForm && <TicketForm ticket={selectedTicket} closeForm={closeForm} />}
+      <div>
+        <button onClick={openForAdd} className='btn btn-info'>Add Ticket</button>
+      </div>
+      {showForm && 
+        <TicketForm 
+        ticket={selectedTicket} 
+        closeForm={closeForm} 
+        updateCurrentPage={updateCurrentPage}
+        handleLastPage={handleLastPage}
+        />}
 
 
       <p className="mb-1 mt-5 justify-content-start d-flex"><small>* click on the row to show description</small></p>

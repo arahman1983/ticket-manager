@@ -26,7 +26,10 @@ export async function getAllTicketsNumber() {
 export async function updateTicket(ticket: TicketType) {
   try {
     const res = await fetch(`http://localhost:3004/tickets/${ticket.id}`,{
-      method: 'PUT',
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(ticket)
     })
     const result = await res.json()
@@ -43,6 +46,9 @@ export async function addTicket(ticket: TicketType) {
   try {
     const res = await fetch(`http://localhost:3004/tickets`,{
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(ticket)
     })
     const result = await res.json()
