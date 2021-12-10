@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { EmptyTableError, Paging, TicketRow } from '../../components'
+import { EmptyTableError, Paging, TicketForm, TicketRow } from '../../components'
 import { TicketType } from '../../constants/types'
-import { getAllTicketsNumber, getTickets } from '../../services/getTicketList'
+import { getAllTicketsNumber, getTickets } from '../../services/ticketList'
 import styles from './tickets.module.css'
 
 
@@ -9,11 +9,17 @@ export default function TicketsList(){
   const [ticketList, setTicketList] = useState<TicketType[] | []>([])
   const [ticketsNumber, setTicketsNumber] = useState<number>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const [showForm, setShowForm] = useState<boolean>(false)
+  const [selectedTicket, setSelectedTicket] = useState<TicketType | undefined>()
 
-  const handleFirstPageClick = () => setCurrentPage(1)
-  const handlePrevPageClick = () => setCurrentPage(currentPage - 1)
-  const handleNextPageClick = () => setCurrentPage(currentPage + 1)
-  const handleLastPageClick = () => setCurrentPage(Math.ceil(ticketsNumber/10))
+  const handleFirstPageClick = ():void => setCurrentPage(1)
+  const handlePrevPageClick = ():void => setCurrentPage(currentPage - 1)
+  const handleNextPageClick = ():void => setCurrentPage(currentPage + 1)
+  const handleLastPageClick = ():void => setCurrentPage(Math.ceil(ticketsNumber/10))
+  const openForm = ():void => setShowForm(true)
+  const closeForm = ():void => setShowForm(false)
+  const selectTicket = (ticket:TicketType | undefined):void => setSelectedTicket(ticket)
+
 
   useEffect(() => {
     let mount = true
@@ -28,9 +34,11 @@ export default function TicketsList(){
 
   return(
     <div className={styles.container}>
-      
+      {showForm && <TicketForm ticket={selectedTicket} closeForm={closeForm} />}
 
-      <table className="table mt-5">
+
+      <p className="mb-1 mt-5 justify-content-start d-flex"><small>* click on the row to show description</small></p>
+      <table className="table">
         <thead>
         <tr>
           <th className={styles.id} scope="">#</th>
@@ -44,7 +52,13 @@ export default function TicketsList(){
           {
             ticketList.length > 0
             ? ticketList.map((ticketObj, index) => (
-              <TicketRow ticket= {ticketObj} key={index} />
+              <TicketRow 
+                ticket= {ticketObj} 
+                key={index} 
+                editTicketHandler={openForm} 
+                selectTicket={selectTicket}
+                showForm={showForm}
+                />
             ))
             : <EmptyTableError />
           }

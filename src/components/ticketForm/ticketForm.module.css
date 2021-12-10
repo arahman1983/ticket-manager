@@ -1,0 +1,13 @@
+.container{
+  justify-content: flex-start;
+  /* background-color: green; */
+  border: solid 1px #ddd;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.form>div>label{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}

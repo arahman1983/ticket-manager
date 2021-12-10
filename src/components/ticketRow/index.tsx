@@ -1,17 +1,26 @@
 import { useState } from "react"
+import { FiEdit } from "react-icons/fi"
 import { TicketType } from "../../constants/types"
 import styles from './ticketRow.module.css'
 
 type Props = {
   ticket: TicketType
+  showForm: boolean
+  editTicketHandler: ()=>void
+  selectTicket: (ticket:TicketType|undefined)=> void
 }
 
 
-export default function TicketRow({ ticket }:Props) {
+export default function TicketRow({ ticket, editTicketHandler, selectTicket, showForm }:Props) {
   const [isActive, setIsActive] = useState<boolean>(false)
   const { id, Subject, Priority, Status, Description } = ticket
   
   const toggleActive = (): void => setIsActive(!isActive)
+  const editHandler = () => {
+    selectTicket(ticket)
+    editTicketHandler()
+  }
+
   return (
     <>
       <tr className={`${styles.mainRow} ${isActive ? styles.active : ''}`} onClick={toggleActive}>
@@ -35,7 +44,9 @@ export default function TicketRow({ ticket }:Props) {
               : <small className="bg-success">Done</small>
           }
         </td>
-        <td></td>
+        <td>
+          <button onClick={editHandler} disabled={showForm}><FiEdit /></button>
+        </td>
       </tr>
       {
         isActive &&
